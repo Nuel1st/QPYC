@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Song Manager</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Song Manager</h1>
+
+        <form class="search-form" method="GET" action="{% url 'index' %}">
+            <input type="text" name="q" placeholder="Search songs">
+            <button type="submit">Search</button>
+        </form>
+
+        <h2>All Songs</h2>
+        <ul>
+            {% for song in songs %}
+                <li>{{ song.title }} - {{ song.file_type }} <a href="{% url 'download_song' song.id %}">Download</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2>Upload New Song</h2>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'upload_song' %}" class="upload-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</body>
+</html>
